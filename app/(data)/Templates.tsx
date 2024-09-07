@@ -48,6 +48,7 @@ export default [
     desc: "An AI tool that serves as your personal blog post title writer, generating catchy and viral-worthy titles in your chosen language.",
     category: "Blog",
     icon: "https://res.cloudinary.com/dhe9ulvq4/image/upload/v1725683060/AI%20Content%20Generator/blog-topic-idea.png",
+    slug: "blog-topic-idea",
     aiPrompt:
       "Generate top 5 Blog Topic Ideas in bullet point only, (no Description) based on niche in rich text editor format",
     form: [
