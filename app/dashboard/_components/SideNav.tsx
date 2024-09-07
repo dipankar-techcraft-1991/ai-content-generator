@@ -9,7 +9,7 @@ const SideNav = () => {
   const path = usePathname();
 
   useEffect(() => {
-    console.log(path);
+    // console.log(path);
   }, []);
 
   const MenuList = [
@@ -44,6 +44,7 @@ const SideNav = () => {
           width={120}
           height={100}
           className="cursor-pointer"
+          priority
         />
       </div>
       <hr className="my-3.5 border" />

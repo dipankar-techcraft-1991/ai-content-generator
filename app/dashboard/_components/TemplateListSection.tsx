@@ -1,5 +1,6 @@
 import Templates from "@/app/(data)/Templates";
 import TemplateCard from "./TemplateCard";
+import { useEffect, useState } from "react";
 
 export interface TEMPLATE {
   name: string;
@@ -18,11 +19,25 @@ export interface FORM {
   required?: boolean;
 }
 
-const TemplateListSection = () => {
+const TemplateListSection = ({ userSearchInput }: any) => {
+  const [tempalteList, setTemplateList] = useState(Templates);
+
+  useEffect(() => {
+    if (userSearchInput) {
+      const filterData = Templates.filter((item) =>
+        item.name.toLowerCase().includes(userSearchInput.toLowerCase())
+      );
+
+      setTemplateList(filterData);
+    } else {
+      setTemplateList(Templates);
+    }
+  }, [userSearchInput]);
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-10">
-      {(Templates as TEMPLATE[]).map((item: TEMPLATE, index: number) => (
-        <TemplateCard {...item} />
+      {(tempalteList as TEMPLATE[]).map((item: TEMPLATE, index: number) => (
+        <TemplateCard key={index} {...item} />
       ))}
     </div>
   );

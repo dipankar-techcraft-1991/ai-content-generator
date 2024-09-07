@@ -1,14 +1,21 @@
+"use client";
+
+import { useState } from "react";
 import SearchSection from "./_components/SearchSection";
 import TemplateListSection from "./_components/TemplateListSection";
 
 const Dashboard = () => {
+  const [userSearchInput, setUserSearchInput] = useState<string>();
+
   return (
     <div>
       {/* Search section */}
-      <SearchSection />
+      <SearchSection
+        onSearchInput={(value: string) => setUserSearchInput(value)}
+      />
 
       {/* Template list section */}
-      <TemplateListSection />
+      <TemplateListSection userSearchInput={userSearchInput} />
     </div>
   );
 };
