@@ -51,8 +51,8 @@ const SideNav = () => {
         {MenuList.map((menu, index) => (
           <div
             key={index}
-            className={`flex gap-2 mb-2 p-3 hover:bg-primary hover:text-white rounded-lg cursor-pointer items-center ${
-              path === menu.path && "bg-primary text-white"
+            className={`flex gap-2 mb-2 p-3 hover:bg-primary hover:text-white hover:shadow-lg rounded-lg cursor-pointer items-center hover:scale-105 duration-500 transition-all ${
+              path === menu.path && "bg-primary text-white shadow-lg"
             }`}
           >
             <menu.icon className="w-6 h-6" />

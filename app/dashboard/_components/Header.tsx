@@ -9,7 +9,10 @@ const Header = () => {
       </div>
 
       <div className="">
-        <h2 className="bg-primary p-1 rounded-full text-xs text-white px-2">
+        <h2
+          className="bg-primary p-1 rounded-full text-xs text-white px-2"
+          title="Membership plan"
+        >
           Join Membership just for ₹899/Month
         </h2>
       </div>
