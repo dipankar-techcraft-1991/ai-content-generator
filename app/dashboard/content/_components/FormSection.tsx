@@ -48,7 +48,11 @@ const FormSection = ({ seletedTemplate, userFormInput, loading }: PROPS) => {
                 required={item?.required}
               />
             ) : item.field === "textarea" ? (
-              <Textarea onChange={handleInputChange} name={item.name} />
+              <Textarea
+                onChange={handleInputChange}
+                name={item.name}
+                rows={4}
+              />
             ) : null}
           </div>
         ))}

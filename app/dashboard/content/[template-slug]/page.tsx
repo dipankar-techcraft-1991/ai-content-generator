@@ -9,6 +9,10 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { chatSession } from "@/utils/AiModel";
 import { useState } from "react";
+import { db } from "@/utils/db";
+import { AIOutput } from "@/utils/schema";
+import { useUser } from "@clerk/nextjs";
+import moment from "moment";
 
 interface PROPS {
   params: {
@@ -22,22 +26,56 @@ const CreateNewContent = (props: PROPS) => {
   );
 
   const [loading, setLoading] = useState(false);
-
   const [aiOutputResult, setAiOutputResult] = useState<string>("");
+  const { user } = useUser();
 
   const GenerateAIContent = async (formData: any) => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const SelectedPrompt = selectedTemplate?.aiPrompt;
+      const SelectedPrompt = selectedTemplate?.aiPrompt;
+      const FinalAIPrompt = `${JSON.stringify(formData)}, ${SelectedPrompt}`;
+      const result = await chatSession.sendMessage(FinalAIPrompt);
+      const resultText = await result?.response.text();
 
-    const FinalAIPrompt = `${JSON.stringify(formData)}, ${SelectedPrompt}`;
-
-    const result = await chatSession.sendMessage(FinalAIPrompt);
-
-    setAiOutputResult(result?.response.text());
-
-    setLoading(false);
+      setAiOutputResult(resultText);
+      await SaveInDB(formData, selectedTemplate?.slug, resultText);
+    } catch (error) {
+      console.error("Error generating AI content:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const SaveInDB = async (
+    formData: any,
+    templateSlug: any,
+    aiResponse: string
+  ) => {
+    try {
+      const emailAddress = user?.primaryEmailAddress?.emailAddress;
+      if (!emailAddress) {
+        console.error("User email not found.");
+        return;
+      }
+
+      const result = await db.insert(AIOutput).values({
+        formData,
+        templateSlug,
+        aiResponse,
+        createdBy: emailAddress,
+        createdAt: moment().format("DD/MM/YYYY"),
+      });
+
+      console.log(result);
+    } catch (error) {
+      console.error("Error saving in DB:", error);
+    }
+  };
+
+  if (!selectedTemplate) {
+    return <div>Template not found</div>;
+  }
 
   return (
     <div className="p-3">
@@ -46,7 +84,6 @@ const CreateNewContent = (props: PROPS) => {
           <ArrowLeft /> Back
         </Button>
       </Link>
-      <div className=""></div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-3">
         {/* Form section */}
         <FormSection
