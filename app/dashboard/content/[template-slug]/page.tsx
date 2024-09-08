@@ -34,7 +34,6 @@ const CreateNewContent = (props: PROPS) => {
 
     const result = await chatSession.sendMessage(FinalAIPrompt);
 
-    // console.log(result?.response.text());
     setAiOutputResult(result?.response.text());
 
     setLoading(false);
