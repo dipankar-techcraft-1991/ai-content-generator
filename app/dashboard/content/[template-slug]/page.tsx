@@ -24,7 +24,7 @@ const CreateNewContent = (props: PROPS) => {
   return (
     <div className="p-3">
       <Link href={"/dashboard"}>
-        <Button>
+        <Button className="hover:bg-[#743dd4] transition-all duration-500">
           <ArrowLeft /> Back
         </Button>
       </Link>

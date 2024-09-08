@@ -4,7 +4,7 @@ import Header from "./_components/Header";
 
 const layout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
-    <div className="bg-slate-100 h-screen">
+    <div className="bg-slate-100">
       <div className="md:w-64 hidden md:block fixed">
         <SideNav />
       </div>

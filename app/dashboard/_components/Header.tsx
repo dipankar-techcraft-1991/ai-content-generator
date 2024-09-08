@@ -15,7 +15,7 @@ const Header = () => {
 
       <div className="">
         <h2
-          className="bg-primary p-1 rounded-full text-xs text-white px-2"
+          className="bg-primary p-1 rounded-full text-xs text-white px-2 hover:bg-[#743dd4] transition-all duration-500"
           title="Membership plan"
         >
           Join Membership just for ₹899/Month

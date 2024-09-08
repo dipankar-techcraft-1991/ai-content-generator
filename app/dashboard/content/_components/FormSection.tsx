@@ -51,7 +51,10 @@ const FormSection = ({ seletedTemplate, userFormInput }: PROPS) => {
           </div>
         ))}
 
-        <Button type="submit" className="w-full py-5 text-md shadow-lg ">
+        <Button
+          type="submit"
+          className="w-full py-5 text-md shadow-lg hover:bg-[#743dd4] transition-all duration-500"
+        >
           Generate Content
         </Button>
       </form>
