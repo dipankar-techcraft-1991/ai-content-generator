@@ -1,6 +1,5 @@
 "use client";
 
-import Templates from "@/app/(data)/Templates";
 import { db } from "@/utils/db";
 import { AIOutput } from "@/utils/schema";
 import Image from "next/image";
@@ -43,14 +42,14 @@ const History = () => {
         </div>
 
         {loading ? (
-          <p>Loading...</p>
+          <p className="text-center mt-5">Loading...</p>
         ) : historyData.length > 0 ? (
           historyData.map((history: any, index: number) => (
             <div
               key={index}
               className="grid grid-cols-2 md:grid-cols-5 items-center p-2 bg-gray-100 mt-2 rounded-md text-sm"
             >
-              <p className="flex items-center gap-2 font-semibold line-clamp-2 p-3">
+              <p className="flex items-center gap-2 font-semibold line-clamp-2 p-3 sm:flex-col">
                 <Image
                   src={history.templateIcon}
                   alt="icon"
@@ -59,7 +58,7 @@ const History = () => {
                 />
                 {history.templateName}
               </p>
-              <p className="line-clamp-4">{history.aiResponse}</p>
+              <p className="line-clamp-4 text-justify">{history.aiResponse}</p>
               <p className="text-center">{history.createdAt}</p>
               <p className="text-center">
                 {history.aiResponse.split(" ").length}
@@ -68,7 +67,7 @@ const History = () => {
             </div>
           ))
         ) : (
-          <p>No history available</p>
+          <p className="text-center mt-5">No history available</p>
         )}
       </div>
     </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import UsageTrack from "./UsageTrack";
 
 const SideNav = () => {
   const path = usePathname();
@@ -37,7 +38,7 @@ const SideNav = () => {
   ];
 
   return (
-    <div className="h-screen p-5 shadow-sm border bg-white">
+    <div className="h-screen relative p-5 shadow-sm border bg-white">
       <div className="flex justify-center">
         <Image
           src="/logo.svg"
@@ -62,6 +63,10 @@ const SideNav = () => {
             </div>
           </Link>
         ))}
+      </div>
+
+      <div className="absolute bottom-0 left-0 w-full">
+        <UsageTrack />
       </div>
     </div>
   );

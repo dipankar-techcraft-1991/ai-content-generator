@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { chatSession } from "@/utils/AiModel";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { db } from "@/utils/db";
 import { AIOutput } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
+import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
+import { useRouter } from "next/navigation";
 
 interface PROPS {
   params: {
@@ -29,8 +31,17 @@ const CreateNewContent = (props: PROPS) => {
   const [aiOutputResult, setAiOutputResult] = useState<string>("");
   const { user } = useUser();
 
+  const router = useRouter();
+
+  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
+
   const GenerateAIContent = async (formData: any) => {
     try {
+      if (totalUsage >= 1000) {
+        router.push("/dashboard/billing");
+        return;
+      }
+
       setLoading(true);
 
       const SelectedPrompt = selectedTemplate?.aiPrompt;
