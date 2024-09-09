@@ -37,7 +37,7 @@ const CreateNewContent = (props: PROPS) => {
 
   const GenerateAIContent = async (formData: any) => {
     try {
-      if (totalUsage >= 1000) {
+      if (totalUsage >= 20000) {
         router.push("/dashboard/billing");
         return;
       }

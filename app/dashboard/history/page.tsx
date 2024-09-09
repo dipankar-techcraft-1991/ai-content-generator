@@ -63,7 +63,14 @@ const History = () => {
               <p className="text-center">
                 {history.aiResponse.split(" ").length}
               </p>
-              <button className="text-blue-500 text-center">Copy</button>
+              <button
+                onClick={() =>
+                  navigator.clipboard.writeText(history.aiResponse)
+                }
+                className="text-blue-500 text-center"
+              >
+                Copy
+              </button>
             </div>
           ))
         ) : (
