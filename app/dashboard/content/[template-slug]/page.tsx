@@ -39,7 +39,13 @@ const CreateNewContent = (props: PROPS) => {
       const resultText = await result?.response.text();
 
       setAiOutputResult(resultText);
-      await SaveInDB(formData, selectedTemplate?.slug, resultText);
+      await SaveInDB(
+        formData,
+        selectedTemplate?.name,
+        selectedTemplate?.icon,
+        selectedTemplate?.slug,
+        resultText
+      );
     } catch (error) {
       console.error("Error generating AI content:", error);
     } finally {
@@ -49,6 +55,8 @@ const CreateNewContent = (props: PROPS) => {
 
   const SaveInDB = async (
     formData: any,
+    templateName: any,
+    templateIcon: any,
     templateSlug: any,
     aiResponse: string
   ) => {
@@ -61,6 +69,8 @@ const CreateNewContent = (props: PROPS) => {
 
       const result = await db.insert(AIOutput).values({
         formData,
+        templateName,
+        templateIcon,
         templateSlug,
         aiResponse,
         createdBy: emailAddress,

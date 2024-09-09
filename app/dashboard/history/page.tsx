@@ -1,20 +1,14 @@
 "use client";
 
+import Templates from "@/app/(data)/Templates";
 import { db } from "@/utils/db";
 import { AIOutput } from "@/utils/schema";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const History = () => {
   const [historyData, setHistoryData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const HistoryHeader: string[] = [
-    "TEMPLATE",
-    "AI RESPONSE",
-    "DATE",
-    "WORDS",
-    "COPY",
-  ];
 
   const fetchHistoryData = async () => {
     try {
@@ -39,36 +33,38 @@ const History = () => {
         Search your previously generated AI contents
       </p>
 
-      {/* Header Section */}
-      <div className="grid grid-cols-2 md:grid-cols-5 bg-gray-200 mt-4 rounded-md p-2 font-bold text-sm sm:text-base lg:text-md">
-        {HistoryHeader.map((item, index) => (
-          <h1 key={index} className="text-center">
-            {item}
-          </h1>
-        ))}
-      </div>
-
-      {/* Data Section */}
       <div className="mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 bg-gray-200 rounded-md p-2 font-bold text-sm sm:text-base">
+          <h1 className="text-center">TEMPLATE</h1>
+          <h1 className="text-center">AI RESPONSE</h1>
+          <h1 className="text-center">DATE</h1>
+          <h1 className="text-center">WORDS</h1>
+          <h1 className="text-center">COPY</h1>
+        </div>
+
         {loading ? (
           <p>Loading...</p>
         ) : historyData.length > 0 ? (
           historyData.map((history: any, index: number) => (
             <div
               key={index}
-              className="grid grid-cols-2 md:grid-cols-5 items-center p-2 bg-gray-100 mt-2 rounded-md text-sm sm:text-base lg:text-sm"
+              className="grid grid-cols-2 md:grid-cols-5 items-center p-2 bg-gray-100 mt-2 rounded-md text-sm"
             >
-              <p className="text-center">{history.templateSlug}</p>
-              <p className="text-center line-clamp-3">{history.aiResponse}</p>
-              <p className="text-center">
-                {new Date(history.createdAt).toLocaleDateString()}
+              <p className="flex items-center gap-2 font-semibold line-clamp-2 p-3">
+                <Image
+                  src={history.templateIcon}
+                  alt="icon"
+                  width={30}
+                  height={30}
+                />
+                {history.templateName}
               </p>
+              <p className="line-clamp-4">{history.aiResponse}</p>
+              <p className="text-center">{history.createdAt}</p>
               <p className="text-center">
                 {history.aiResponse.split(" ").length}
               </p>
-              <button className="text-blue-500 hover:underline text-center">
-                Copy
-              </button>
+              <button className="text-blue-500 text-center">Copy</button>
             </div>
           ))
         ) : (
