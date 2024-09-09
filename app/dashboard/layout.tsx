@@ -10,7 +10,7 @@ const layout = ({ children }: Readonly<{ children: ReactNode }>) => {
 
   return (
     <TotalUsageContext.Provider value={{ totalUsage, setTotalUsage }}>
-      <div className="bg-slate-100 h-screen">
+      <div className="bg-slate-100">
         <div className="md:w-64 hidden md:block fixed">
           <SideNav />
         </div>
