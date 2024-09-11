@@ -11,16 +11,31 @@ import { useContext, useEffect, useState } from "react";
 
 const UsageTrack = () => {
   const { user } = useUser();
-
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
-  const { setUserSubscription } = useContext(UserSubscriptionContext);
+  const { userSubscription, setUserSubscription } = useContext(
+    UserSubscriptionContext
+  );
   const [maxWords, setMaxWords] = useState<number>(10000);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Effect to fetch data when the component mounts
   useEffect(() => {
-    getTotalUsage();
-    isUserSubscription();
+    if (user?.primaryEmailAddress?.emailAddress) {
+      fetchUserData();
+    }
   }, [user]);
+
+  const fetchUserData = async () => {
+    try {
+      setLoading(true);
+      await Promise.all([getTotalUsage(), isUserSubscription()]);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const isUserSubscription = async () => {
     if (!user?.primaryEmailAddress?.emailAddress) return;
@@ -33,16 +48,16 @@ const UsageTrack = () => {
           eq(UserSubscription.email, user.primaryEmailAddress.emailAddress)
         );
 
-      if (result) {
+      if (result.length > 0) {
         setUserSubscription(true);
         setMaxWords(100000);
       }
     } catch (error) {
       console.error("Error fetching user subscription:", error);
+      setError("Failed to fetch user subscription");
     }
   };
 
-  // Fetch total usage
   const getTotalUsage = async () => {
     if (!user?.primaryEmailAddress?.emailAddress) return;
 
@@ -52,18 +67,25 @@ const UsageTrack = () => {
         .from(AIOutput)
         .where(eq(AIOutput.createdBy, user.primaryEmailAddress.emailAddress));
 
-      // Calculate the total usage
       let total: number = 0;
-
-      result.forEach((element) => {
-        total += Number(element.aiResponse?.length);
+      result?.forEach((element) => {
+        total += Number(element.aiResponse?.length) || 0;
       });
 
       setTotalUsage(total);
     } catch (error) {
       console.error("Error fetching total usage:", error);
+      setError("Failed to fetch total usage");
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
 
   return (
     <div className="m-5">
@@ -76,14 +98,15 @@ const UsageTrack = () => {
           ></div>
         </div>
         <h2 className="text-sm my-2">
-          {totalUsage}/{maxWords} Credit Used
+          {totalUsage}/{maxWords} Credits Used
         </h2>
       </div>
       <Button
         variant={"secondary"}
         className="w-full my-3 text-primary font-bold"
+        disabled={loading}
       >
-        Upgrade
+        {userSubscription ? "Subscribed" : "Upgrade"}{" "}
       </Button>
     </div>
   );
