@@ -15,6 +15,7 @@ import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { useRouter } from "next/navigation";
+import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
 
 interface PROPS {
   params: {
@@ -34,10 +35,11 @@ const CreateNewContent = (props: PROPS) => {
   const router = useRouter();
 
   const { totalUsage } = useContext(TotalUsageContext);
+  const { userSubscription } = useContext(UserSubscriptionContext);
 
   const GenerateAIContent = async (formData: any) => {
     try {
-      if (totalUsage >= 10000) {
+      if (totalUsage >= 10000 && !userSubscription) {
         router.push("/dashboard/billing");
         return;
       }

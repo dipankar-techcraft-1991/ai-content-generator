@@ -4,11 +4,12 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState, FormEvent, useContext } from "react";
 import { X } from "lucide-react";
 import { db } from "@/utils/db";
 import { UserSubscription } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
+import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
 import moment from "moment";
 
 export interface PROP {
@@ -25,6 +26,8 @@ const CheckoutPage = ({ amount, name, email }: PROP) => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
+  const { userSubscription } = useContext(UserSubscriptionContext);
 
   const { user } = useUser();
 
@@ -134,7 +137,7 @@ const CheckoutPage = ({ amount, name, email }: PROP) => {
         onClick={toggleDialog}
         className="w-full text-blue-800 font-medium border-2 border-gray-300 rounded-full text-center mt-8 p-2 cursor-pointer"
       >
-        Get Started
+        {userSubscription ? "Currently Active Plan" : "Get Started"}
       </button>
 
       <form onSubmit={handleSubmitPayment} id="payment-form">

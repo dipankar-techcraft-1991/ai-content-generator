@@ -3,9 +3,11 @@
 import { Check } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckoutPage from "../_components/CheckoutPage";
 import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 import { useUser } from "@clerk/nextjs";
+import CheckoutPage from "../_components/CheckoutPage";
+import { useContext } from "react";
+import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "default_public_key"
@@ -13,6 +15,8 @@ const stripePromise = loadStripe(
 
 const Billing = () => {
   const { user } = useUser();
+
+  const { userSubscription } = useContext(UserSubscriptionContext);
 
   const amount = 9.99;
 
@@ -43,9 +47,11 @@ const Billing = () => {
           <p className="flex gap-2 font-semibold my-1">
             <Check />1 Month of History
           </p>
-          <p className="bg-green-500 text-white rounded-full text-center mt-8 p-2.5">
-            Currently Active Plan
-          </p>
+          {!userSubscription && (
+            <p className="bg-green-500 text-white rounded-full text-center mt-8 p-2.5">
+              Currently Active Plan
+            </p>
+          )}
         </div>
         {/* monthly section */}
         <div className="bg-white rounded-lg p-8 mx-4 md:mb-0 shadow-lg">

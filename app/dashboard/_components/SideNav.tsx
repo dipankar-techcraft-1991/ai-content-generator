@@ -38,18 +38,18 @@ const SideNav = () => {
   ];
 
   return (
-    <div className="h-screen relative p-5 shadow-sm border bg-white">
+    <div className="h-screen relative p-4 shadow-sm border bg-white">
       <div className="flex justify-center">
         <Image
           src="/logo.svg"
           alt="logo"
-          width={120}
+          width={155}
           height={100}
           className="cursor-pointer"
           priority
         />
       </div>
-      <hr className="my-3.5 border" />
+      <hr className="my-1.5 border" />
       <div className="mt-5">
         {MenuList.map((menu, index) => (
           <Link href={menu.path} key={index}>

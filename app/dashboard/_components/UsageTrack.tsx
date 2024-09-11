@@ -1,17 +1,46 @@
 "use client";
 
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
+import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
 import { Button } from "@/components/ui/button";
 import { db } from "@/utils/db";
-import { AIOutput } from "@/utils/schema";
+import { AIOutput, UserSubscription } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const UsageTrack = () => {
   const { user } = useUser();
 
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
+  const { setUserSubscription } = useContext(UserSubscriptionContext);
+  const [maxWords, setMaxWords] = useState<number>(10000);
+
+  // Effect to fetch data when the component mounts
+  useEffect(() => {
+    getTotalUsage();
+    isUserSubscription();
+  }, [user]);
+
+  const isUserSubscription = async () => {
+    if (!user?.primaryEmailAddress?.emailAddress) return;
+
+    try {
+      const result = await db
+        .select()
+        .from(UserSubscription)
+        .where(
+          eq(UserSubscription.email, user.primaryEmailAddress.emailAddress)
+        );
+
+      if (result) {
+        setUserSubscription(true);
+        setMaxWords(100000);
+      }
+    } catch (error) {
+      console.error("Error fetching user subscription:", error);
+    }
+  };
 
   // Fetch total usage
   const getTotalUsage = async () => {
@@ -24,7 +53,7 @@ const UsageTrack = () => {
         .where(eq(AIOutput.createdBy, user.primaryEmailAddress.emailAddress));
 
       // Calculate the total usage
-      let total = 0;
+      let total: number = 0;
 
       result.forEach((element) => {
         total += Number(element.aiResponse?.length);
@@ -36,11 +65,6 @@ const UsageTrack = () => {
     }
   };
 
-  // Effect to fetch data when the component mounts
-  useEffect(() => {
-    getTotalUsage();
-  }, [user]);
-
   return (
     <div className="m-5">
       <div className="bg-primary text-white p-3 rounded-lg">
@@ -48,10 +72,12 @@ const UsageTrack = () => {
         <div className="h-2 bg-[#9981f9] w-full rounded-full mt-3">
           <div
             className="h-2 bg-white rounded-full"
-            style={{ width: `${(totalUsage / 20000) * 100}%` }}
+            style={{ width: `${(totalUsage / maxWords) * 100}%` }}
           ></div>
         </div>
-        <h2 className="text-sm my-2">{totalUsage}/20,000 Credit Used</h2>
+        <h2 className="text-sm my-2">
+          {totalUsage}/{maxWords} Credit Used
+        </h2>
       </div>
       <Button
         variant={"secondary"}
