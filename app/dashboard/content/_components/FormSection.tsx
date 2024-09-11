@@ -51,7 +51,7 @@ const FormSection = ({ seletedTemplate, userFormInput, loading }: PROPS) => {
               <Textarea
                 onChange={handleInputChange}
                 name={item.name}
-                rows={4}
+                rows={3}
               />
             ) : null}
           </div>

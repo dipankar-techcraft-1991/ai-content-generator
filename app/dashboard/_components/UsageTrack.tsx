@@ -6,7 +6,7 @@ import { db } from "@/utils/db";
 import { AIOutput } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 const UsageTrack = () => {
   const { user } = useUser();

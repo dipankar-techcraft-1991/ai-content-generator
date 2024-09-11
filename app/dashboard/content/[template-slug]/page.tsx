@@ -33,7 +33,7 @@ const CreateNewContent = (props: PROPS) => {
 
   const router = useRouter();
 
-  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
+  const { totalUsage } = useContext(TotalUsageContext);
 
   const GenerateAIContent = async (formData: any) => {
     try {

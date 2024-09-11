@@ -1,6 +1,21 @@
+"use client";
+
 import { Check } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutPage from "../_components/CheckoutPage";
+import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
+import { useUser } from "@clerk/nextjs";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "default_public_key"
+);
 
 const Billing = () => {
+  const { user } = useUser();
+
+  const amount = 9.99;
+
   return (
     <div className="h-screen">
       <h2 className="text-center mt-10 font-bold text-2xl">
@@ -28,7 +43,7 @@ const Billing = () => {
           <p className="flex gap-2 font-semibold my-1">
             <Check />1 Month of History
           </p>
-          <p className="bg-green-500 text-white rounded-full text-center mt-8 p-2.5 cursor-pointer">
+          <p className="bg-green-500 text-white rounded-full text-center mt-8 p-2.5">
             Currently Active Plan
           </p>
         </div>
@@ -53,9 +68,20 @@ const Billing = () => {
           <p className="flex gap-2 font-semibold my-1">
             <Check />1 Year of History
           </p>
-          <p className="bg-white text-blue-800 font-medium border-2 border-gray-300 rounded-full text-center mt-8 p-2 cursor-pointer">
-            Get Started
-          </p>
+          <Elements
+            stripe={stripePromise}
+            options={{
+              mode: "payment",
+              amount: convertToSubcurrency(amount),
+              currency: "usd",
+            }}
+          >
+            <CheckoutPage
+              amount={amount}
+              name={user?.fullName}
+              email={user?.primaryEmailAddress?.emailAddress}
+            />
+          </Elements>
         </div>
       </div>
     </div>
