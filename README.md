@@ -5,4 +5,4 @@ toast ui library (for editor)
 Gemini Generative AI SDK
 postgrSql
 drizzle orm (neon postgresql database)
-payment gateway (RazorPay)
+payment gateway (Stripe)
