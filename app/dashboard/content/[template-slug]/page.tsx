@@ -16,6 +16,7 @@ import moment from "moment";
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { useRouter } from "next/navigation";
 import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
+import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext";
 
 interface PROPS {
   params: {
@@ -36,6 +37,15 @@ const CreateNewContent = (props: PROPS) => {
 
   const { totalUsage } = useContext(TotalUsageContext);
   const { userSubscription } = useContext(UserSubscriptionContext);
+  const { updateCreditUsage, setUpdateCreditUsage } = useContext(
+    UpdateCreditUsageContext
+  );
+
+  /**
+   * Used to generate content from AI
+   * @param formData
+   * @returns
+   */
 
   const GenerateAIContent = async (formData: any) => {
     try {
@@ -59,6 +69,10 @@ const CreateNewContent = (props: PROPS) => {
         selectedTemplate?.slug,
         resultText
       );
+
+      setLoading(false);
+
+      setUpdateCreditUsage(Date.now());
     } catch (error) {
       console.error("Error generating AI content:", error);
     } finally {
