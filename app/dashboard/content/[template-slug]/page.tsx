@@ -1,22 +1,22 @@
 "use client";
 
-import Templates from "@/app/(data)/Templates";
 import { TEMPLATE } from "../../_components/TemplateListSection";
-import FormSection from "../_components/FormSection";
-import OutputSection from "../_components/OutputSection";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { chatSession } from "@/utils/AiModel";
 import { useContext, useState } from "react";
 import { db } from "@/utils/db";
 import { AIOutput } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
-import moment from "moment";
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { useRouter } from "next/navigation";
 import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
 import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext";
+import Templates from "@/app/(data)/Templates";
+import FormSection from "../_components/FormSection";
+import OutputSection from "../_components/OutputSection";
+import Link from "next/link";
+import moment from "moment";
 
 interface PROPS {
   params: {
@@ -37,9 +37,7 @@ const CreateNewContent = (props: PROPS) => {
 
   const { totalUsage } = useContext(TotalUsageContext);
   const { userSubscription } = useContext(UserSubscriptionContext);
-  const { updateCreditUsage, setUpdateCreditUsage } = useContext(
-    UpdateCreditUsageContext
-  );
+  const { setUpdateCreditUsage } = useContext(UpdateCreditUsageContext);
 
   /**
    * Used to generate content from AI
@@ -116,21 +114,25 @@ const CreateNewContent = (props: PROPS) => {
 
   return (
     <div className="p-3">
-      <Link href={"/dashboard"}>
+      <Link href="/dashboard">
         <Button className="hover:bg-[#743dd4] transition-all duration-500">
           <ArrowLeft /> Back
         </Button>
       </Link>
+
+      {/* Main Content */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-3">
         {/* Form section */}
-        <FormSection
-          seletedTemplate={selectedTemplate}
-          userFormInput={(value: any) => GenerateAIContent(value)}
-          loading={loading}
-        />
+        <div className="md:col-span-1 col-span-3">
+          <FormSection
+            seletedTemplate={selectedTemplate}
+            userFormInput={(value: any) => GenerateAIContent(value)}
+            loading={loading}
+          />
+        </div>
 
         {/* Output section */}
-        <div className="col-span-2">
+        <div className="md:col-span-2 col-span-3">
           <OutputSection aiOutputResult={aiOutputResult} />
         </div>
       </div>

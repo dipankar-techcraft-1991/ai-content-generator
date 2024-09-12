@@ -3,7 +3,6 @@
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext";
 import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
-import { Button } from "@/components/ui/button";
 import { db } from "@/utils/db";
 import { AIOutput, UserSubscription } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
@@ -17,6 +16,7 @@ const UsageTrack = () => {
   const { userSubscription, setUserSubscription } = useContext(
     UserSubscriptionContext
   );
+
   const [maxWords, setMaxWords] = useState<number>(10000);
 
   const { updateCreditUsage, setUpdateCreditUsage } = useContext(
@@ -87,12 +87,14 @@ const UsageTrack = () => {
           {totalUsage}/{maxWords} Credit Used
         </h2>
       </div>
-      <Button
-        variant={"secondary"}
-        className="w-full my-3 text-primary font-bold"
+      <button
+        className={`w-full text-blue-800 font-medium border-2 border-gray-300 rounded-xl text-center mt-3 p-2 cursor-pointer ${
+          userSubscription && "cursor-not-allowed"
+        }`}
+        disabled={!!userSubscription}
       >
-        Upgrade
-      </Button>
+        {userSubscription ? "Subscribed" : "Upgrade"}
+      </button>
     </div>
   );
 };

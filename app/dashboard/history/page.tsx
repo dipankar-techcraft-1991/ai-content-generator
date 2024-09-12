@@ -2,8 +2,8 @@
 
 import { db } from "@/utils/db";
 import { AIOutput } from "@/utils/schema";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const History = () => {
   const [historyData, setHistoryData] = useState<any[]>([]);

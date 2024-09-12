@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { Copy } from "lucide-react";
 import { useEffect, useRef } from "react";
+import "@toast-ui/editor/dist/toastui-editor.css";
 
 export interface PROPS {
   aiOutputResult: string;
@@ -31,7 +31,7 @@ const OutputSection = ({ aiOutputResult }: PROPS) => {
         ref={editorRef} // Assign ref to the editor
         initialValue="Your result will appear here" // Initial content in the editor
         initialEditType="wysiwyg" // Set the editor type to WYSIWYG mode
-        height="600px" // Set the height of the editor
+        height="375px" // Set the height of the editor
         useCommandShortcut={true} // Enable keyboard shortcuts
         onChange={() =>
           console.log(editorRef.current.getInstance().getMarkdown())

@@ -3,9 +3,9 @@
 import { ReactNode, useState } from "react";
 import { TotalUsageContext } from "../(context)/TotalUsageContext";
 import { UserSubscriptionContext } from "../(context)/UserSubscriptionContext";
+import { UpdateCreditUsageContext } from "../(context)/UpdateCreditUsageContext";
 import SideNav from "./_components/SideNav";
 import Header from "./_components/Header";
-import { UpdateCreditUsageContext } from "../(context)/UpdateCreditUsageContext";
 
 const layout = ({ children }: Readonly<{ children: ReactNode }>) => {
   const [totalUsage, setTotalUsage] = useState<number>(0);

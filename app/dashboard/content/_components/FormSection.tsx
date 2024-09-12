@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { TEMPLATE } from "../../_components/TemplateListSection";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader2Icon } from "lucide-react";
+import Image from "next/image";
 
 interface PROPS {
   seletedTemplate?: TEMPLATE;
@@ -30,7 +30,7 @@ const FormSection = ({ seletedTemplate, userFormInput, loading }: PROPS) => {
   };
 
   return (
-    <div className="p-5 shadow-md border rounded-lg bg-white">
+    <div className="p-5 shadow-md border rounded-lg bg-white h-full">
       <Image src={iconSrc} alt="icon" width={60} height={60} priority />
       <h2 className="font-bold text-2xl mb-2 text-primary">
         {seletedTemplate?.name}

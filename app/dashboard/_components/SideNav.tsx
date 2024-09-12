@@ -1,10 +1,10 @@
 "use client";
 
 import { FileClock, Home, Settings, WalletCards } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import UsageTrack from "./UsageTrack";
 
 const SideNav = () => {

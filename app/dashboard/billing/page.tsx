@@ -5,9 +5,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 import { useUser } from "@clerk/nextjs";
-import CheckoutPage from "../_components/CheckoutPage";
 import { useContext } from "react";
 import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
+import CheckoutPage from "../_components/CheckoutPage";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "default_public_key"
