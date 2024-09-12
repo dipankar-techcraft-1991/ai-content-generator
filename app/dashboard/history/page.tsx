@@ -8,6 +8,7 @@ import Image from "next/image";
 const History = () => {
   const [historyData, setHistoryData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [copyMessage, setCopyMessage] = useState<string>(""); // Add state for copy message
 
   const fetchHistoryData = async () => {
     try {
@@ -25,8 +26,23 @@ const History = () => {
     fetchHistoryData();
   }, []);
 
+  const handleCopy = (aiResponse: string) => {
+    navigator.clipboard.writeText(aiResponse);
+    setCopyMessage("AI Response copied to clipboard!"); // Set copy message
+
+    // Hide the message after 3 seconds
+    setTimeout(() => {
+      setCopyMessage("");
+    }, 3000);
+  };
+
   return (
     <div className="bg-white m-5 rounded-md p-4">
+      {/* Show copy message */}
+      {copyMessage && (
+        <div className="bg-gray-200 p-2 rounded-md mb-4">{copyMessage}</div>
+      )}
+
       <h1 className="font-bold text-2xl">History</h1>
       <p className="text-gray-600">
         Search your previously generated AI contents
@@ -64,9 +80,7 @@ const History = () => {
                 {history.aiResponse.split(" ").length}
               </p>
               <button
-                onClick={() =>
-                  navigator.clipboard.writeText(history.aiResponse)
-                }
+                onClick={() => handleCopy(history.aiResponse)} // Call handleCopy on click
                 className="text-blue-500 text-center"
               >
                 Copy
