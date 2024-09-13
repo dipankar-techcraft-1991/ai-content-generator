@@ -47,9 +47,6 @@ const OutputSection = ({ aiOutputResult }: PROPS) => {
         initialEditType="wysiwyg" // Set the editor type to WYSIWYG mode
         height="375px" // Set the height of the editor
         useCommandShortcut={true} // Enable keyboard shortcuts
-        onChange={() =>
-          console.log(editorRef.current.getInstance().getMarkdown())
-        }
       />
     </div>
   );

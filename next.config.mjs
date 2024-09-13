@@ -3,7 +3,14 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["res.cloudinary.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "", // Optional: specify the port if needed (usually empty)
+        pathname: "/**", // Match all paths under this domain
+      },
+    ],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

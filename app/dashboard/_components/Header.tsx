@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 
 const Header = () => {
   return (
-    <div className="flex flex-col md:flex-row p-3 md:p-5 shadow-sm bg-white border-b-2 items-end justify-end gap-4">
+    <div className="flex flex-col md:flex-row p-3 md:p-6 shadow-sm bg-white border-b-2 items-end justify-end gap-4">
       {/* Membership plan */}
       <div className="flex md:flex-row gap-3 md:gap-5 w-full md:w-auto text-center md:text-right items-center md:items-end">
         <h2

@@ -88,7 +88,7 @@ const UsageTrack = () => {
         </h2>
       </div>
       <button
-        className={`w-full text-blue-800 font-medium border-2 border-gray-300 rounded-xl text-center mt-3 p-2 cursor-pointer ${
+        className={`w-full text-blue-800 font-medium border-2 border-gray-300 rounded-xl text-center mt-3 p-2 ${
           userSubscription && "cursor-not-allowed"
         }`}
         disabled={!!userSubscription}

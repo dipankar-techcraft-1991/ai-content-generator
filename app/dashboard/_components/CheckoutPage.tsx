@@ -135,7 +135,7 @@ const CheckoutPage = ({ amount, name, email }: PROP) => {
     <div>
       <button
         onClick={toggleDialog}
-        className={`w-full text-blue-800 font-medium border-2 border-gray-300 rounded-full text-center mt-8 p-2 cursor-pointer ${
+        className={`w-full text-blue-800 font-medium border-2 border-gray-300 rounded-full text-center mt-8 p-2 ${
           userSubscription && "cursor-not-allowed"
         }`}
         disabled={!!userSubscription}
