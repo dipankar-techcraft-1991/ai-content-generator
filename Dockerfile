@@ -2,13 +2,13 @@
 FROM node:20.17.0 AS deps
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN npm install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM node:20.17.0 AS builder
 WORKDIR /app
 COPY . .
-RUN yarn build
+RUN npm run build
 
 # Production image, copy all the files and run the application
 FROM node:20.17.0 AS runner
