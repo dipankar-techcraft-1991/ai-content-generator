@@ -66,6 +66,8 @@ AI Content Generator is a tool that utilizes the power of Google Gemini Generati
 
 5. Open your browser and navigate to `http://localhost:3000`.
 
+6. Open your browser and navigate to `https://ai-content-generator-weld.vercel.app`.
+
 ---
 
 ## Authentication & User Management
